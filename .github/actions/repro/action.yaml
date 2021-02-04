@@ -1,0 +1,11 @@
+name: 'Reproduce the bug'
+description: ''
+inputs: {}
+runs:
+  using: 'composite'
+  steps:
+    - shell: bash
+      run: |
+        echo github.action_path: ${{ github.action_path }}
+        ls -al ${{ github.action_path }} || true
+

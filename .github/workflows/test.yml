@@ -1,0 +1,30 @@
+name: Reploduce the bug
+
+on: push
+
+jobs:
+  without-container:
+    runs-on: ubuntu-20.04
+    steps:
+      - uses: actions/checkout@v2
+      - uses: ./.github/actions/repro
+
+      - run: echo runner.temp = ${{ runner.temp }}
+      - run: ls -al ${{ runner.temp }} || true
+
+      - run: echo runner.tool_cache = ${{ runner.tool_cache }}
+      - run: ls -al ${{ runner.tool_cache }} || true
+
+  bug-in-container:
+    runs-on: ubuntu-20.04
+    container:
+      image: centos:7
+    steps:
+      - uses: actions/checkout@v2
+      - uses: ./.github/actions/repro
+
+      - run: echo runner.temp = ${{ runner.temp }}
+      - run: ls -al ${{ runner.temp }} || true
+
+      - run: echo runner.tool_cache = ${{ runner.tool_cache }}
+      - run: ls -al ${{ runner.tool_cache }} || true
